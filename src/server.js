@@ -7,6 +7,7 @@ import { logger } from './core/logger/logger.js';
     try {
         await connectDb();
         const port = config.port || 3000;
+        app.set('trust proxy', 1);
         app.listen(port, () => {
             logger.info(`Server is running on port ${port}`);
         });

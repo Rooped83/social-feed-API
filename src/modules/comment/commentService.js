@@ -21,7 +21,12 @@ export const getCommentsByPostId = async (postId) => {
         throw new AppError(message, statusCode, code);
     };
     return { totalComments, comments }
-};
+}; 
+
+export const getComment  = async (commentId) => {
+    const comment = await commentRepo.getComment(commentId);
+    return comment;
+} 
 
 export const editComment = async (commentId, userId, text) => {
     const comment = await commentRepo.getComment(commentId);

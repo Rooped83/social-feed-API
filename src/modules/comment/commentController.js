@@ -16,6 +16,11 @@ export const getPostComments = asyncHandler(async (req, res) => {
     res.status(200).json({ success: true, message: "Comments fetched successfully", result });
 });
 
+export const getComment = asyncHandler(async (req, res) => {
+    const { commentId } = req.params;
+    const comment = await commentService.getComment(commentId);
+    res.status(200).json({ success: true, message: "Comment fetched successfully", comment });
+})
 export const editComment = asyncHandler(async (req, res) => {
     const { commentId } = req.params;
     const { text } = req.body;

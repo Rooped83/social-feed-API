@@ -12,9 +12,10 @@ app.use(express.json());
 app.use(helmet());
 app.use(cors());
 app.use(cookieParser());
-app.use(dynamicRateLimiter('general'));
+app.use(dynamicRateLimiter('anonymous'));
 //routes
 app.use('/api/', routes);
+//error handler
 app.use(errorHandler);
 
 export default app;
