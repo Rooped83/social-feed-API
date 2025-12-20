@@ -1,6 +1,6 @@
 import * as userRepo from '../user/userRepo.js';
 import * as authRepo from './authRepo.js';
-import token from '../../core/utils/token.js';
+import { generateToken } from '../../core/utils/token.js';
 import { ERROR_CODES } from '../../core/errors/errorCodes.js';
 import AppError from '../../core/errors/appError.js';
 import { doHashing, doCompare } from '../../core/utils/hashing.js';
@@ -25,7 +25,7 @@ export const signUp = async (email, password, name) => {
     });
     const serializedUser = UserSerializer.base(user);
     // generate token
-    const accessToken = token(serializedUser);
+    const accessToken = generateToken(serializedUser);
     return { user: serializedUser, accessToken };
 };
 
@@ -44,7 +44,7 @@ export const signIn = async (email, password) => {
     }
      const serializedUser = UserSerializer.base(user);
     // generate token
-    const accessToken = token(serializedUser);
+    const accessToken = generateToken(serializedUser);
     return { user: serializedUser, accessToken };
     };
 

@@ -3,7 +3,7 @@ import './env.js';
 ;
 import { requiredEnv } from './requiredEnv.js';
 
-export const config = {
+export const config = () => ({
     nodeEnv: process.env.NODE_ENV || 'development',
     port: process.env.PORT || 5000,
     dbURI: process.env.DB_URI || requiredEnv('DB_URI'),
@@ -22,4 +22,4 @@ export const config = {
     smtpUser: process.env.SMTP_USER,
     smtpPass: process.env.SMTP_PASS,
     logLevel: process.env.LOG_LEVEL || 'info'
-};
+});

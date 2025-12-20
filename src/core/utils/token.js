@@ -16,5 +16,3 @@ export const generateToken = (user) => {
         { expiresIn: config.expirationTime }
     );
 };
-
-export default generateToken;

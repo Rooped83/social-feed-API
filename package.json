@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "start": "node src/server.js",
-    "dev": "nodemon src/server.js"
+    "dev": "nodemon src/server.js",
+    "test": "vitest --coverage"
   },
   "keywords": [],
   "author": "",
@@ -29,5 +30,10 @@
     "redis": "^5.9.0",
     "terminal": "^0.1.4",
     "winston": "^3.18.3"
+  },
+  "devDependencies": {
+    "@vitest/coverage-v8": "^4.0.15",
+    "vite": "^7.3.0",
+    "vitest": "^4.0.15"
   }
 }
