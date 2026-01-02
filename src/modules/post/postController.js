@@ -41,8 +41,8 @@ export const updatePost = asyncHandler(async (req, res) => {
 
 // delete a post  
 export const deletePost = asyncHandler(async (req, res) => {
-    const { id } = req.user;
-       await postService.deletePost(req.params.id, id)
+    const { userId } = req.user;
+       await postService.deletePost({ postId: req.params.id, userId: userId })
         res.status(200).json({ success: true, message: "Post deleted successfully" });
 });
     

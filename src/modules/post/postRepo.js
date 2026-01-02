@@ -28,12 +28,22 @@ export const countPosts = async () => {
 
 export const getPostById = async (_id) => {
     const post = await Post.findById(_id).populate({ path: 'userId', select: 'email' });
-    return post;
+    if (!post) return null;
+    return {
+        _id: post._id.toString(),
+        title: post.title,
+        content: post.content,
+        category: post.category,
+        userId: post.userId._id.toString(),
+        email: post.userId.email,
+        createdAt: post.createdAt
+    };
 };
 
 export const deletePost = async (_id) => {
     const post = await Post.findByIdAndDelete(_id);
-    return post;
+    if (!post) return null;
+    return { postId: post._id.toString(), userId: post.userId.toString()}
 };
 
 export const updatePost = async (id, postData) => {

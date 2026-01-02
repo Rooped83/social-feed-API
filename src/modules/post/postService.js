@@ -2,6 +2,7 @@ import { ERROR_CODES } from "../../core/errors/errorCodes.js";
 import AppError from '../../core/errors/appError.js';
 import * as postRepo from './postRepo.js';
 import * as commentRepo from '../comment/commentRepo.js';
+import * as userRepo from '../user/userRepo.js';
 
 //get all posts 
 export const getAllPosts = async () => {
@@ -11,8 +12,10 @@ export const getAllPosts = async () => {
 
 // create post 
 export const createPost = async ({ title, content, category, userId, page }) => {
+    const user = await userRepo.getUserById(userId);
     const postsPerPage = 10;
-    const pageNumber = Math.max(page - 1, 0);
+    const pageN = Number.isInteger(page) && page > 0 ? page : 1;
+    const pageNumber = pageN - 1;
     const newPost = await postRepo.createPost({ 
         title: title, 
         content: content, 
@@ -25,8 +28,8 @@ export const createPost = async ({ title, content, category, userId, page }) => 
 };
 
 // get post by id
-export const getPostById = async (_id) => {
-    const post = await postRepo.getPostById(_id);
+export const getPostById = async ({ postId }) => {
+    const post = await postRepo.getPostById(postId);
     if (!post) {
         const { code, message, statusCode } =ERROR_CODES.POST_NOT_FOUND;
         throw new AppError(message, statusCode, code);
@@ -52,17 +55,20 @@ export const updatePost = async (id, postData, userId) => {
 };
 
 // delete post:
-export const deletePost = async (id, userId) => {
-    const existingPost = await postRepo.getPostById(id);
+export const deletePost = async ({ postId, userId }) => {
+    const normalizedPostId = postId.toString();
+    const normalizedUserId = userId.toString();
+    const existingPost = await postRepo.getPostById(normalizedPostId);
     if (!existingPost) {
         const { message, statusCode, code } = ERROR_CODES.POST_NOT_FOUND;
         throw new AppError(message, statusCode, code);
     };
-    if (existingPost.userId._id.toString() !== userId ) {
+    
+    if (existingPost.userId.toString() !== normalizedUserId) {
         const { message, statusCode, code } = ERROR_CODES.UNAUTHORIZED_TO_DELETE_POST;
         throw new AppError(message, statusCode, code);
     };
-    await postRepo.deletePost(id);
+    await postRepo.deletePost(normalizedPostId);
 };
 
 // get posts by user id 

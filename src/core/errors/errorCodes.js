@@ -120,5 +120,10 @@ export const ERROR_CODES = {
         message: 'No comments yet',
         statusCode: 404
      },
+     INVALID_REQUEST: {
+        code: 'INVALID_REQUEST',
+        message: 'Invalid request',
+        statusCode: 400
+     }
 };
 
