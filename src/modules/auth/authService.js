@@ -100,7 +100,7 @@ export const signIn = async (email, password) => {
     
         // verify verification code logic:
         export const verifyVerificationCode = async (email, code) => {
-            const stringCode = code.toString();
+            const normalizedCode = code.toString();
             const existingUser = await userRepo.getUserByEmail(email);
             if (!existingUser) {
                 const { code, message, statusCode } = ERROR_CODES.USER_NOT_FOUND;
@@ -120,7 +120,7 @@ export const signIn = async (email, password) => {
                 throw new AppError(message, statusCode, code);
             }
             // check if code matches
-            const isMatch = doCompare(stringCode, record.hashedCode);
+            const isMatch = doCompare(normalizedCode, record.hashedCode);
             if (!isMatch) {
                 const { code, message, statusCode } = ERROR_CODES.INVALID_VERIFICATION_CODE;
                 throw new AppError(message, statusCode, code);
@@ -202,6 +202,7 @@ export const sendForgotPassCode = async (email) => {
         // mark code as used
         await authRepo.markAsUsed({ verificationCodeModelId: record._id });
     };
+
 
 
         
